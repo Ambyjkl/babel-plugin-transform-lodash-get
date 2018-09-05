@@ -5,9 +5,9 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "lint": "eslint src/*.js",
-    "test": "node src/test.js",
-    "benchmark": "node"
+    "lint": "eslint src/*.js test/*.js",
+    "test": "node test/test.js",
+    "benchmark": "node test/bench.js"
   },
   "author": "Ambareesh Balaji <ambareeshbalaji@gmail.com>",
   "license": "ISC",
