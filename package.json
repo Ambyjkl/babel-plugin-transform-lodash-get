@@ -1,0 +1,20 @@
+{
+  "name": "babel-plugin-transform-lodash-get",
+  "version": "0.1.0",
+  "description": "Babel plugin to statically optimize lodash/get",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "lint": "eslint src/*.js",
+    "test": "node src/test.js",
+    "benchmark": "node"
+  },
+  "author": "Ambareesh Balaji <ambareeshbalaji@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "benchmark": "^2.1.4",
+    "eslint": "^5.5.0",
+    "lodash": "^4.17.10"
+  }
+}
