@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 const babel = require('@babel/core')
-const plugin = require('./index')
+const plugin = require('../src')
 
 const code = `
 get(obj, 'data.project.items[0].workspace.items[0].channel', '12345');
