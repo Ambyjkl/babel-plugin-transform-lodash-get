@@ -51,6 +51,7 @@ function plugin({ types: t }) {
           const _2 = args[2]
 
           if (!_0) {
+            path.replaceWith(undef())
             return
           }
           let nodes
@@ -60,7 +61,11 @@ function plugin({ types: t }) {
             nodes = _1.arguments
           } else if (t.isStringLiteral(_1)) {
             nodes = stringToPath(_1.value).map(a => t.stringLiteral(a))
-          } else { // cannot be statically optimized
+          } else {
+            if (_1 === undefined) {
+              path.replaceWith(t.conditionalExpression(_0, t.memberExpression(_0, t.identifier('undefined')), undef()))
+            }
+            // cannot be statically optimized
             return
           }
           if (nodes.length === 0) {
