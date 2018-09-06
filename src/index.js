@@ -71,7 +71,12 @@ function plugin({ types: t }) {
           if (nodes.length === 0) {
             path.replaceWith(undef())
           } else if (nodes.length === 1) {
-            path.replaceWith(t.conditionalExpression(_0, deref(_0, nodes[0]), _2 || undef()))
+            const dereffed = deref(_0, nodes[0])
+            if (loose) {
+              path.replaceWith(t.logicalExpression('&&', _0, dereffed))
+            } else {
+              path.replaceWith(t.conditionalExpression(_0, dereffed, _2 || undef()))
+            }
           } else {
             const { scope } = path
             const tmpId = scope.generateUidIdentifierBasedOnNode(_0)
