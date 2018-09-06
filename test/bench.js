@@ -20,7 +20,7 @@ suite.add('get array', () => {
     ((n = obj) && (n = n.data) && (n = n.project) && (n = n.items) && (n = n[0]) && (n = n.workspac) && (n = n.items) && (n = n[0])) ? ((n = n.channel) === undefined ? defaultVal : n) : defaultVal;
     ((n = obj) && (n = n.data) && (n = n.project) && (n = n.items) && (n = n[0]) && (n = n.workspace) && (n = n.items) && (n = n[0])) ? ((n = n.channel) === undefined ? defaultVal : n) : defaultVal
 })
-.add('native &&ed loose (not implemented yet)', () => {
+.add('native &&ed loose', () => {
     var defaultVal = 'gg'
     var n;
     (n = obj) && (n = n.data) && (n = n.project) && (n = n.items) && (n = n[0]) && (n = n.workspac) && (n = n.items) && (n = n[0]) && n.channel || defaultVal;

@@ -19,24 +19,41 @@ function plugin({ types: t }) {
   }
 
   return {
+    pre() {
+      this.functions = []
+      this.methods = []
+
+      const patterns = this.opts.patterns || ['get', '_.get']
+
+      for (const pattern of patterns) {
+        const dot = pattern.indexOf('.')
+        if (dot === -1) {
+          this.functions.push(pattern)
+        } else {
+          this.methods.push([pattern.slice(0, dot), pattern.slice(dot + 1)])
+        }
+      }
+    },
     visitor: {
       CallExpression(path) {
-        const {node} = path
-        const {callee, arguments: args} = node
+        const { node } = path
+        const { callee, arguments: args } = node
+        const loose = !!this.opts.loose
 
         if (
-          (t.isMemberExpression(callee) &&
-            callee.object.name === '_' &&
-            callee.property.name === 'get') ||
-          (t.isIdentifier(callee) && callee.name === 'get')
+          (t.isMemberExpression(callee) && this.methods.some(([obj, method]) =>
+              callee.object.name === obj &&
+              callee.property.name === method)) ||
+          (t.isIdentifier(callee) && this.functions.includes(callee.name))
         ) {
           const _0 = args[0]
           const _1 = args[1]
           const _2 = args[2]
+
           if (!_0) {
             return
           }
-          let nodes = null
+          let nodes
           if (t.isArrayExpression(_1)) {
             nodes = _1.elements
           } else if ((t.isCallExpression(_1) || t.isNewExpression(_1)) && _1.callee.name === 'Array') {
@@ -49,12 +66,12 @@ function plugin({ types: t }) {
           if (nodes.length === 0) {
             path.replaceWith(undef())
           } else if (nodes.length === 1) {
-            const transformed = t.conditionalExpression(_0, deref(_0, nodes[0]), _2 || undef())
-            path.replaceWith(transformed)
+            path.replaceWith(t.conditionalExpression(_0, deref(_0, nodes[0]), _2 || undef()))
           } else {
-            const tmpId = path.scope.generateUidIdentifierBasedOnNode(_0)
+            const { scope } = path
+            const tmpId = scope.generateUidIdentifierBasedOnNode(_0)
             const def = t.variableDeclaration('let', [t.variableDeclarator(tmpId)])
-            let scopeBlock = path.scope.block
+            let scopeBlock = scope.block
             while (scopeBlock.constructor !== Array) {
               scopeBlock = scopeBlock.body
             }
@@ -62,18 +79,42 @@ function plugin({ types: t }) {
             t.logicalExpression('&&', t.identifier('a'), t.identifier('b'))
             let i = nodes.length - 2
             let right = t.assignmentExpression('=', tmpId, deref(tmpId, nodes[i]))
-            i--;
+            i--
             for (; i >= 0; i--) {
               const left = t.assignmentExpression('=', tmpId, deref(tmpId, nodes[i]))
               right = t.logicalExpression('&&', left, right)
             }
-            const test = t.logicalExpression('&&', t.assignmentExpression('=', tmpId, _0), right)
+            let transformed;
+            const left = t.logicalExpression('&&', t.assignmentExpression('=', tmpId, _0), right)
             const lastDeref = deref(tmpId, nodes[nodes.length - 1])
-            const consequent = _2
-              ? t.conditionalExpression(t.binaryExpression('===', t.assignmentExpression('=', tmpId, lastDeref), undef()), _2, tmpId)
-              : lastDeref
-            const alternate = _2 || undef()
-            path.replaceWith(t.conditionalExpression(test, consequent, alternate))
+            if (loose) {
+              const full = t.logicalExpression('&&', left, lastDeref)
+              transformed = _2
+                ? t.logicalExpression('||', full, _2)
+                : full
+            } else {
+              if (_2) {
+                let consequent
+                let alternate
+                let test
+                const undefCheck = t.binaryExpression('===', t.assignmentExpression('=', tmpId, lastDeref), undef())
+                if (t.isIdentifier(_2)) {
+                  test = left
+                  consequent = t.conditionalExpression(undefCheck, _2, tmpId)
+                  alternate = _2
+                } else {
+                  alternate = scope.generateUidIdentifierBasedOnNode(_2)
+                  const defaultVarDec = t.variableDeclaration('const', [t.variableDeclarator(alternate)])
+                  scopeBlock.unshift(defaultVarDec)
+                  test = t.sequenceExpression([t.assignmentExpression('=', alternate, _2), left])
+                  consequent = t.conditionalExpression(undefCheck, alternate, tmpId)
+                }
+                transformed = t.conditionalExpression(test, consequent, alternate)
+              } else {
+                transformed = t.conditionalExpression(left, lastDeref, undef())
+              }
+            }
+            path.replaceWith(transformed)
           }
         }
       }
