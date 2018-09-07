@@ -76,7 +76,7 @@ function plugin({ types: t }) {
             // cannot be statically optimized
             return
           }
-          debugger
+
           if (nodes.length === 0) {
             path.replaceWith(undef())
           } else if (nodes.length === 1) {
