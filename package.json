@@ -6,15 +6,20 @@
   "scripts": {
     "start": "node src/index.js",
     "lint": "eslint src/*.js test/*.js",
-    "test": "node test/test.js",
-    "benchmark": "node test/bench.js"
+    "test": "nyc --reporter=html --reporter=text ava"
   },
   "author": "Ambareesh Balaji <ambareeshbalaji@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.0.0",
+    "ava": "1.0.0-beta.8",
     "benchmark": "^2.1.4",
     "eslint": "^5.5.0",
-    "lodash": "^4.17.10"
+    "eval": "^0.1.2",
+    "lodash": "^4.17.10",
+    "nyc": "^13.0.1"
+  },
+  "ava": {
+    "babel": false
   }
 }
