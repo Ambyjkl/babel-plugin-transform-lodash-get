@@ -1,4 +1,4 @@
-const stringToPath = require('lodash/_stringToPath')
+const castPath = require('lodash/_castPath')
 
 function plugin({ types: t }) {
   const undef = () => t.unaryExpression('void', t.numericLiteral(0))
@@ -8,13 +8,15 @@ function plugin({ types: t }) {
     let value
     let computed = true
 
-    const prop = t.isIdentifier(key)
-      ? key
-      : (value = key.value, t.isStringLiteral(key)
-        ? ((number = Number(value)), Number.isNaN(number))
-          ? (computed = false, t.identifier(value))
+    const prop = t.isStringLiteral(key)
+      ? (value = key.value, value === ''
+        ? key
+        : (number = +value, Number.isNaN(number)))
+          ? t.isValidIdentifier(value)
+            ? (computed = false, t.identifier(value))
+            : key
           : t.numericLiteral(number)
-        : t.numericLiteral(value))
+      : key
     return t.memberExpression(obj, prop, computed)
   }
 
@@ -37,7 +39,7 @@ function plugin({ types: t }) {
     visitor: {
       CallExpression(path) {
         const { node } = path
-        const { callee, arguments: args } = node
+        const { callee } = node
         const loose = !!this.opts.loose
 
         if (
@@ -46,6 +48,7 @@ function plugin({ types: t }) {
               callee.property.name === method)) ||
           (t.isIdentifier(callee) && this.functions.includes(callee.name))
         ) {
+          const args = node.arguments
           const _0 = args[0]
           const _1 = args[1]
           const _2 = args[2]
@@ -55,19 +58,25 @@ function plugin({ types: t }) {
             return
           }
           let nodes
-          if (t.isArrayExpression(_1)) {
+          if (t.isStringLiteral(_1)) {
+            nodes = castPath(_1.value).map(a => t.stringLiteral(a))
+          } else if (t.isArrayExpression(_1)) {
             nodes = _1.elements
           } else if ((t.isCallExpression(_1) || t.isNewExpression(_1)) && _1.callee.name === 'Array') {
             nodes = _1.arguments
-          } else if (t.isStringLiteral(_1)) {
-            nodes = stringToPath(_1.value).map(a => t.stringLiteral(a))
           } else {
             if (_1 === undefined) {
-              path.replaceWith(t.conditionalExpression(_0, t.memberExpression(_0, t.identifier('undefined')), undef()))
+              const undefId = t.identifier('undefined')
+              if (loose) {
+                path.replaceWith(t.logicalExpression('&&', _0, t.memberExpression(_0, undefId)))
+              } else {
+                path.replaceWith(t.conditionalExpression(_0, t.memberExpression(_0, undefId), undef()))
+              }
             }
             // cannot be statically optimized
             return
           }
+          debugger
           if (nodes.length === 0) {
             path.replaceWith(undef())
           } else if (nodes.length === 1) {
@@ -114,7 +123,7 @@ function plugin({ types: t }) {
                   alternate = _2
                 } else {
                   alternate = scope.generateUidIdentifierBasedOnNode(_2)
-                  const defaultVarDec = t.variableDeclaration('const', [t.variableDeclarator(alternate)])
+                  const defaultVarDec = t.variableDeclaration('let', [t.variableDeclarator(alternate)])
                   scopeBlock.unshift(defaultVarDec)
                   test = t.sequenceExpression([t.assignmentExpression('=', alternate, _2), left])
                   consequent = t.conditionalExpression(undefCheck, alternate, tmpId)
