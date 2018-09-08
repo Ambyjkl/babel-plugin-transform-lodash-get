@@ -64,6 +64,20 @@ Also, this plugin doesn't (yet) remove unused imports/requires of `lodash` after
 ## Options
 Apart from the aforementioned `loose` mode, this plugin also supports an additonal `patterns` option, which defaults to `['get', '_.get']`, which lets you add custom patterns to match, but this is not recommended.
 
+## Installation
+### Via `pnpm`
+```
+pnpm i -D babel-plugin-transform-lodash-get
+```
+### Via `npm`
+```
+npm i -D babel-plugin-transform-lodash-get
+```
+### Via `yarn`
+```
+yarn add -D babel-plugin-transform-lodash-get
+```
+
 ## Usage
 ### Via `.babelrc` (Recommended)
 **.babelrc**
