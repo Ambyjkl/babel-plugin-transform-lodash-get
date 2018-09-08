@@ -48,7 +48,7 @@ let _obj;
 
 ## `loose` mode
 
-The strict transformation (the default) generates code that always evaluates to exactly what `lodash/get` would produce, but if you favour better performance and smaller transformed code at the expense of sometimes getting a different falsy value than `undefined` when the key is not found in the object, then you can use the `loose` mode to produce the following for the above example:
+The strict transformation (the default) generates code that always evaluates to exactly what `lodash/get` would produce, but if you favour better performance and smaller transformed code at the expense of sometimes getting a different falsy value than `undefined` when the key is not found in the object, then you can use the `loose` mode, that produces the following for the above example:
 
 ### Out
 ```javascript
