@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-lodash-get",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Babel plugin to statically optimize lodash/get",
   "main": "src/index.js",
   "scripts": {
@@ -16,7 +16,6 @@
     "ava": "1.0.0-beta.8",
     "benchmark": "^2.1.4",
     "eslint": "^5.5.0",
-    "eval": "^0.1.2",
     "lodash": "^4.17.10",
     "nyc": "^13.0.1"
   },

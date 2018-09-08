@@ -3,7 +3,6 @@ devDependencies:
   ava: 1.0.0-beta.8
   benchmark: 2.1.4
   eslint: 5.5.0
-  eval: 0.1.2
   lodash: 4.17.10
   nyc: 13.0.1
 packages:
@@ -1384,14 +1383,6 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-Cr9PHKpbyx96nYrMbepPqqBLrJs=
-  /eval/0.1.2:
-    dependencies:
-      require-like: 0.1.2
-    dev: true
-    engines:
-      node: '>= 0.8'
-    resolution:
-      integrity: sha1-n3EDKEwQWmbfQDCysycxZYNwE9o=
   /execa/0.7.0:
     dependencies:
       cross-spawn: 5.1.0
@@ -3016,10 +3007,6 @@ packages:
       node: '>=0.10'
     resolution:
       integrity: sha1-jcrkcOHIirwtYA//Sndihtp15jc=
-  /require-like/0.1.2:
-    dev: true
-    resolution:
-      integrity: sha1-rW8wwTvs15cBDEaK+ndcDAprR/o=
   /require-precompiled/0.1.0:
     dev: true
     engines:
@@ -3736,6 +3723,5 @@ specifiers:
   ava: 1.0.0-beta.8
   benchmark: ^2.1.4
   eslint: ^5.5.0
-  eval: ^0.1.2
   lodash: ^4.17.10
   nyc: ^13.0.1
