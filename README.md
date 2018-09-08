@@ -62,7 +62,7 @@ If the second argument of to a `lodash/get` call is not a string or an array but
 Also, this plugin doesn't (yet) remove unused imports/requires of `lodash` after transform from files; you may have to use other babel plugins to deal with this.
 
 ## Options
-Apart from the aforementioned `loose` mode, this plugin also supports an additonal `patterns` option, which defaults to `['get', '_.get']`, which lets you add custom patterns to match, but this is not recommended.
+Apart from the aforementioned `loose` mode, this plugin also supports an additonal `patterns` option, which defaults to `["get", "_.get"]`, which lets you add custom patterns to match, but this is not recommended.
 
 ## Installation
 ### Via `pnpm`
@@ -90,7 +90,7 @@ Without options
 With options
 ```json
 {
-  "plugins": [["transform-lodash-get", { loose: true, patterns: ['foo', '_.foo'] }]]
+  "plugins": [["transform-lodash-get", { "loose": true, "patterns": ["foo", "_.foo"] }]]
 }
 ```
 ### Via CLI
