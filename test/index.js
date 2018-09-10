@@ -18,6 +18,6 @@ fs.readdirSync(__dirname + '/fixtures').forEach(each => {
     t.deepEqual(loose, expectedLoose)
     const codeEval = eval(code)
     const strictEval = eval(strict)
-    t.deepEqual(codeEval, strictEval)
+    t.deepEqual(strictEval, codeEval)
   })
 })
