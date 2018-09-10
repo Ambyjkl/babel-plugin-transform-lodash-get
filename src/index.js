@@ -89,22 +89,23 @@ function plugin({ types: t }) {
           } else {
             const { scope } = path
             const tmpId = scope.generateUidIdentifierBasedOnNode(_0)
-            const def = t.variableDeclaration('let', [t.variableDeclarator(tmpId)])
-            let scopeBlock = scope.block
-            while (scopeBlock.constructor !== Array) {
-              scopeBlock = scopeBlock.body
-            }
-            scopeBlock.unshift(def)
+            scope.push({ id: tmpId, kind: 'let' })
             t.logicalExpression('&&', t.identifier('a'), t.identifier('b'))
+            let right
+            const firstAssign = t.assignmentExpression('=', tmpId, deref(_0, nodes[0]))
             let i = nodes.length - 2
-            let right = t.assignmentExpression('=', tmpId, deref(tmpId, nodes[i]))
-            i--
-            for (; i >= 1; i--) {
-              const left = t.assignmentExpression('=', tmpId, deref(tmpId, nodes[i]))
-              right = t.logicalExpression('&&', left, right)
+            if (i >= 1) {
+              right = t.assignmentExpression('=', tmpId, deref(tmpId, nodes[i]))
+              i--
+              for (; i >= 1; i--) {
+                const left = t.assignmentExpression('=', tmpId, deref(tmpId, nodes[i]))
+                right = t.logicalExpression('&&', left, right)
+              }
+              right = t.logicalExpression('&&', firstAssign, right)
+            } else {
+              right = firstAssign
             }
-            right = t.logicalExpression('&&', t.assignmentExpression('=', tmpId, deref(_0, nodes[i])), right)
-            let transformed;
+            let transformed
             const left = t.logicalExpression('&&', _0, right)
             const lastDeref = deref(tmpId, nodes[nodes.length - 1])
             if (loose) {
@@ -124,8 +125,7 @@ function plugin({ types: t }) {
                   alternate = _2
                 } else {
                   alternate = scope.generateUidIdentifierBasedOnNode(_2)
-                  const defaultVarDec = t.variableDeclaration('let', [t.variableDeclarator(alternate)])
-                  scopeBlock.unshift(defaultVarDec)
+                  scope.push({ id: alternate, kind: 'let' })
                   test = t.sequenceExpression([t.assignmentExpression('=', alternate, _2), left])
                   consequent = t.conditionalExpression(undefCheck, alternate, tmpId)
                 }

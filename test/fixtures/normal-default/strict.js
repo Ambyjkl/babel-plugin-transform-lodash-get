@@ -1,8 +1,4 @@
-let _obj2;
-
-let _ref;
-
-let _obj;
+let _obj, _ref, _obj2;
 
 const get = require('lodash/get');
 
