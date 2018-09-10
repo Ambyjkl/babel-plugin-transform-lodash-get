@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-lodash-get",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Babel plugin to statically optimize lodash/get",
   "main": "src/index.js",
   "scripts": {
