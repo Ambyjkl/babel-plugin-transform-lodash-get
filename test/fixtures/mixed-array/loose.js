@@ -10,4 +10,4 @@ const obj = {
 
 const fn = () => 'foo';
 
-module.exports = [(_obj = obj) && (_obj = _obj[fn()]) && (_obj = _obj.bar) && (_obj = _obj[0]) && _obj[0]];
+module.exports = [obj && (_obj = obj[fn()]) && (_obj = _obj.bar) && (_obj = _obj[0]) && _obj[0]];

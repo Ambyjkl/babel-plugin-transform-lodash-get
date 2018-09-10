@@ -14,4 +14,4 @@ const obj = {
   }
 };
 const defVal = '123';
-module.exports = [(_obj = obj) && (_obj = _obj.a) && (_obj = _obj.b) && (_obj = _obj.c) && (_obj = _obj[0]) && _obj.d || null, (_obj2 = obj) && (_obj2 = _obj2.a) && (_obj2 = _obj2.c) && (_obj2 = _obj2.b) && (_obj2 = _obj2[0]) && _obj2.d || defVal];
+module.exports = [obj && (_obj = obj.a) && (_obj = _obj.b) && (_obj = _obj.c) && (_obj = _obj[0]) && _obj.d || null, obj && (_obj2 = obj.a) && (_obj2 = _obj2.c) && (_obj2 = _obj2.b) && (_obj2 = _obj2[0]) && _obj2.d || defVal];

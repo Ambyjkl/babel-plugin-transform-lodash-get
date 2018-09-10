@@ -99,12 +99,13 @@ function plugin({ types: t }) {
             let i = nodes.length - 2
             let right = t.assignmentExpression('=', tmpId, deref(tmpId, nodes[i]))
             i--
-            for (; i >= 0; i--) {
+            for (; i >= 1; i--) {
               const left = t.assignmentExpression('=', tmpId, deref(tmpId, nodes[i]))
               right = t.logicalExpression('&&', left, right)
             }
+            right = t.logicalExpression('&&', t.assignmentExpression('=', tmpId, deref(_0, nodes[i])), right)
             let transformed;
-            const left = t.logicalExpression('&&', t.assignmentExpression('=', tmpId, _0), right)
+            const left = t.logicalExpression('&&', _0, right)
             const lastDeref = deref(tmpId, nodes[nodes.length - 1])
             if (loose) {
               const full = t.logicalExpression('&&', left, lastDeref)
