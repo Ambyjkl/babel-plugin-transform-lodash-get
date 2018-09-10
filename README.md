@@ -43,7 +43,7 @@ get(obj, 'products.foo.items[0].baz.items[0].foobar', 'gg')
 ```javascript
 let _gg;
 let _obj;
-(_gg = 'gg', (_obj = obj) && (_obj = _obj.products) && (_obj = _obj.foo) && (_obj = _obj.items) && (_obj = _obj[0]) && (_obj = _obj.baz) && (_obj = _obj.items) && (_obj = _obj[0])) ? (_obj = _obj.foobar) === void 0 ? _gg : _obj : _gg;
+(_gg = 'gg', obj && (_obj = obj.products) && (_obj = _obj.foo) && (_obj = _obj.items) && (_obj = _obj[0]) && (_obj = _obj.baz) && (_obj = _obj.items) && (_obj = _obj[0])) ? (_obj = _obj.foobar) === void 0 ? _gg : _obj : _gg;
 ```
 
 ## `loose` mode
@@ -53,7 +53,7 @@ The strict transformation (the default) generates code that always evaluates to 
 ### Out
 ```javascript
 let _obj;
-(_obj = obj) && (_obj = _obj.products) && (_obj = _obj.foo) && (_obj = _obj.items) && (_obj = _obj[0]) && (_obj = _obj.baz) && (_obj = _obj.items) && (_obj = _obj[0]) && _obj.foobar || 'gg';
+obj && (_obj = obj.products) && (_obj = _obj.foo) && (_obj = _obj.items) && (_obj = _obj[0]) && (_obj = _obj.baz) && (_obj = _obj.items) && (_obj = _obj[0]) && _obj.foobar || 'gg';
 ```
 
 ## What it doesn't do

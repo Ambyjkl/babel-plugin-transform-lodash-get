@@ -17,13 +17,13 @@ suite.add('get array', () => {
   .add('transformed strict', () => {
     let _gg
     let _obj;
-    (_gg = 'gg', (_obj = obj) && (_obj = _obj.products) && (_obj = _obj.foo) && (_obj = _obj.items) && (_obj = _obj[0]) && (_obj = _obj.baz) && (_obj = _obj.items) && (_obj = _obj[0])) ? (_obj = _obj.foobar) === void 0 ? _gg : _obj : _gg;
-    (_gg = 'gg', (_obj = obj) && (_obj = _obj.products) && (_obj = _obj.foo) && (_obj = _obj.items) && (_obj = _obj[0]) && (_obj = _obj.bar) && (_obj = _obj.items) && (_obj = _obj[0])) ? (_obj = _obj.foobar) === void 0 ? _gg : _obj : _gg
+    (_gg = 'gg', obj && (_obj = obj.products) && (_obj = _obj.foo) && (_obj = _obj.items) && (_obj = _obj[0]) && (_obj = _obj.baz) && (_obj = _obj.items) && (_obj = _obj[0])) ? (_obj = _obj.foobar) === void 0 ? _gg : _obj : _gg;
+    (_gg = 'gg', obj && (_obj = obj.products) && (_obj = _obj.foo) && (_obj = _obj.items) && (_obj = _obj[0]) && (_obj = _obj.bar) && (_obj = _obj.items) && (_obj = _obj[0])) ? (_obj = _obj.foobar) === void 0 ? _gg : _obj : _gg
   })
   .add('transformed loose', () => {
     let _obj;
-    (_obj = obj) && (_obj = _obj.products) && (_obj = _obj.foo) && (_obj = _obj.items) && (_obj = _obj[0]) && (_obj = _obj.baz) && (_obj = _obj.items) && (_obj = _obj[0]) && _obj.foobar || 'gg';
-    (_obj = obj) && (_obj = _obj.products) && (_obj = _obj.foo) && (_obj = _obj.items) && (_obj = _obj[0]) && (_obj = _obj.baz) && (_obj = _obj.items) && (_obj = _obj[0]) && _obj.foobar || 'gg'
+    obj && (_obj = obj.products) && (_obj = _obj.foo) && (_obj = _obj.items) && (_obj = _obj[0]) && (_obj = _obj.baz) && (_obj = _obj.items) && (_obj = _obj[0]) && _obj.foobar || 'gg';
+    obj && (_obj = obj.products) && (_obj = _obj.foo) && (_obj = _obj.items) && (_obj = _obj[0]) && (_obj = _obj.baz) && (_obj = _obj.items) && (_obj = _obj[0]) && _obj.foobar || 'gg'
   })
   .add('native no check (contol)', () => {
     obj.products.foo.items[0].bar.items[0].foobar
