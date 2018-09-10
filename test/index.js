@@ -4,7 +4,7 @@ const fs = require('fs')
 const babel = require('@babel/core')
 
 fs.readdirSync(__dirname + '/fixtures').forEach(each => {
-  (each === 'empty-string' ? test : test)(each, async t => {
+  test(each, async t => {
     const folder = `${__dirname}/fixtures/${each}`
     const codePath = `${folder}/code.js`
     const strictPath = `${folder}/strict.js`
