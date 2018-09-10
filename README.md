@@ -5,26 +5,26 @@ Babel plugin to statically optimize lodash/get
 `lodash/get` is a quick and dirty way to follow a path in an object and avoid an `Uncaught TypeError: Cannot read property of undefined`, but it's quite inefficient because it does a lot of things at runtime which can usually be done at compile-time. This is especially true with the string version, which involves a regular expression evaluation to determine the path to take. Here are some benchmark results (see `misc/bench.js`) that demonstrate what this plugin accomplishes:
 
 ```
-get array x 5,598,764 ops/sec ±0.82% (92 runs sampled)
-get string x 1,649,393 ops/sec ±1.00% (92 runs sampled)
-transformed strict x 105,823,559 ops/sec ±0.89% (89 runs sampled)
-transformed loose x 199,549,365 ops/sec ±1.44% (89 runs sampled)
-native (no check) x 859,787,262 ops/sec ±0.63% (92 runs sampled)
-native (caught) x 219,053 ops/sec ±0.97% (79 runs sampled)
+get array x 6,064,571 ops/sec ±0.64% (93 runs sampled)
+get string x 1,757,073 ops/sec ±0.69% (91 runs sampled)
+transformed strict x 112,676,455 ops/sec ±0.75% (92 runs sampled)
+transformed loose x 213,763,702 ops/sec ±1.16% (89 runs sampled)
+native no check (contol) x 884,326,945 ops/sec ±0.39% (92 runs sampled)
+native (caught) x 224,134 ops/sec ±0.84% (77 runs sampled)
 
 strict
 ------
-1790.12% faster than get array
-6315.91% faster than get string
-87.69% slower than native (no check)
-48209.65% faster than native (caught)
+1757.95% faster than get array
+6312.74% faster than get string
+87.26% slower than native no check (contol)
+50171.86% faster than native (caught)
 
 loose
 ------
-3464.17% faster than get array
-11998.35% faster than get string
-76.79% slower than native (no check)
-90996.54% faster than native (caught)
+3424.80% faster than get array
+12065.90% faster than get string
+75.83% slower than native no check (contol)
+95273.07% faster than native (caught)
 ```
 
 You can run this benchmark on your own setup as follows:

@@ -25,7 +25,7 @@ suite.add('get array', () => {
     (_obj = obj) && (_obj = _obj.products) && (_obj = _obj.foo) && (_obj = _obj.items) && (_obj = _obj[0]) && (_obj = _obj.baz) && (_obj = _obj.items) && (_obj = _obj[0]) && _obj.foobar || 'gg';
     (_obj = obj) && (_obj = _obj.products) && (_obj = _obj.foo) && (_obj = _obj.items) && (_obj = _obj[0]) && (_obj = _obj.baz) && (_obj = _obj.items) && (_obj = _obj[0]) && _obj.foobar || 'gg'
   })
-  .add('native (no check)', () => {
+  .add('native no check (contol)', () => {
     obj.products.foo.items[0].bar.items[0].foobar
     obj.products.foo.items[0].bar.items[0].foobar
   })
