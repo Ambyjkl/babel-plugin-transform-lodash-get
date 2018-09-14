@@ -9,21 +9,21 @@ get array x 6,064,571 ops/sec ±0.64% (93 runs sampled)
 get string x 1,757,073 ops/sec ±0.69% (91 runs sampled)
 transformed strict x 112,676,455 ops/sec ±0.75% (92 runs sampled)
 transformed loose x 213,763,702 ops/sec ±1.16% (89 runs sampled)
-native no check (contol) x 884,326,945 ops/sec ±0.39% (92 runs sampled)
+native no check (control) x 884,326,945 ops/sec ±0.39% (92 runs sampled)
 native (caught) x 224,134 ops/sec ±0.84% (77 runs sampled)
 
 strict
 ------
 1757.95% faster than get array
 6312.74% faster than get string
-87.26% slower than native no check (contol)
+87.26% slower than native no check (control)
 50171.86% faster than native (caught)
 
 loose
 ------
 3424.80% faster than get array
 12065.90% faster than get string
-75.83% slower than native no check (contol)
+75.83% slower than native no check (control)
 95273.07% faster than native (caught)
 ```
 
