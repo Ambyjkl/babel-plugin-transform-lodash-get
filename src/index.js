@@ -78,11 +78,12 @@ function plugin({ types: t }) {
           }
 
           if (nodes.length === 0) {
-            path.replaceWith(undef())
+            path.replaceWith(_2 || undef())
           } else if (nodes.length === 1) {
             const dereffed = deref(_0, nodes[0])
             if (loose) {
-              path.replaceWith(t.logicalExpression('&&', _0, dereffed))
+              const first = t.logicalExpression('&&', _0, dereffed);
+              path.replaceWith(_2 ? t.logicalExpression('||', first, _2) : first);
             } else {
               path.replaceWith(t.conditionalExpression(_0, dereffed, _2 || undef()))
             }

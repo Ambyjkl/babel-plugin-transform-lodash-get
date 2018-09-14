@@ -1,4 +1,4 @@
-let _this$props$company, _obj;
+let _obj;
 
 const get = require('lodash/get');
 

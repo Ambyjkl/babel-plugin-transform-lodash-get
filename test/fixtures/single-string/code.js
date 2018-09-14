@@ -8,5 +8,5 @@ const obj = {
 
 module.exports = [
   get(obj, 'a'),
-  _.get(obj, 'b'),
+  _.get(obj, 'b', 3),
 ]
