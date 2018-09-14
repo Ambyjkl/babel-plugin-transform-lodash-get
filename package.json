@@ -2,6 +2,7 @@
   "name": "babel-plugin-transform-lodash-get",
   "version": "1.0.4",
   "description": "Babel plugin to statically optimize lodash/get",
+  "repository": "github:Ambyjkl/babel-plugin-transform-lodash-get",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -21,5 +22,14 @@
   },
   "ava": {
     "babel": false
-  }
+  },
+  "keywords": [
+    "babel",
+    "plugin",
+    "lodash",
+    "get",
+    "transform",
+    "performance",
+    "optimize"
+  ]
 }
