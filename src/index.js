@@ -79,36 +79,43 @@ function plugin({ types: t }) {
 
           if (nodes.length === 0) {
             path.replaceWith(_2 || undef())
-          } else if (nodes.length === 1) {
+          } else if (nodes.length === 1 && loose) {
             const dereffed = deref(_0, nodes[0])
-            if (loose) {
-              const first = t.logicalExpression('&&', _0, dereffed);
-              path.replaceWith(_2 ? t.logicalExpression('||', first, _2) : first);
-            } else {
-              path.replaceWith(t.conditionalExpression(_0, dereffed, _2 || undef()))
-            }
+            const first = t.logicalExpression('&&', _0, dereffed);
+            path.replaceWith(_2 ? t.logicalExpression('||', first, _2) : first);
           } else {
             const { scope } = path
-            const tmpId = scope.generateUidIdentifierBasedOnNode(_0)
-            scope.push({ id: tmpId, kind: 'let' })
             t.logicalExpression('&&', t.identifier('a'), t.identifier('b'))
-            let right
-            const firstAssign = t.assignmentExpression('=', tmpId, deref(_0, nodes[0]))
-            let i = nodes.length - 2
-            if (i >= 1) {
-              right = t.assignmentExpression('=', tmpId, deref(tmpId, nodes[i]))
-              i--
-              for (; i >= 1; i--) {
-                const left = t.assignmentExpression('=', tmpId, deref(tmpId, nodes[i]))
-                right = t.logicalExpression('&&', left, right)
-              }
-              right = t.logicalExpression('&&', firstAssign, right)
+            let left
+            let i = nodes.length - 1
+            let tmpId
+            if (i !== 0 || _2) {
+              tmpId = scope.generateUidIdentifierBasedOnNode(_0)
+              scope.push({ id: tmpId, kind: 'let' })
+            }
+            let lastDeref
+            if (i === 0) {
+              lastDeref = deref(_0, nodes[0])
+              left = _0
             } else {
-              right = firstAssign
+              lastDeref = deref(tmpId, nodes[i])
+              i--
+              const firstAssign = t.assignmentExpression('=', tmpId, deref(_0, nodes[0]))
+              let right
+              if (i >= 1) {
+                right = t.assignmentExpression('=', tmpId, deref(tmpId, nodes[i]))
+                i--
+                for (; i >= 1; i--) {
+                  const left = t.assignmentExpression('=', tmpId, deref(tmpId, nodes[i]))
+                  right = t.logicalExpression('&&', left, right)
+                }
+                right = t.logicalExpression('&&', firstAssign, right)
+              } else {
+                right = firstAssign
+              }
+              left = t.logicalExpression('&&', _0, right)
             }
             let transformed
-            const left = t.logicalExpression('&&', _0, right)
-            const lastDeref = deref(tmpId, nodes[nodes.length - 1])
             if (loose) {
               const full = t.logicalExpression('&&', left, lastDeref)
               transformed = _2
